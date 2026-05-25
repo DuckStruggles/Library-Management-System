@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Library Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Library Management System</h1>
+
+    <div class="form-section">
+
+        <h2>Add Book</h2>
+
+        <input type="text" id="title" placeholder="Book Title">
+
+        <input type="text" id="author" placeholder="Author Name">
+
+        <button onclick="addBook()">Add Book</button>
+
+    </div>
+
+    <hr>
+
+    <div class="books-section">
+
+        <h2>All Books</h2>
+
+        <button onclick="getBooks()">Load Books</button>
+
+        <div id="booksContainer"></div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

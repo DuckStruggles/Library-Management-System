@@ -4,11 +4,22 @@ import com.srishti.libManagement.Model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Integer> { //JpaRepository<EntityType, PrimaryKeyType>
-    List<Book> findByAuthor(String author);
-    List<Book> findByTitle(String title);
+public interface BookRepository
+        extends JpaRepository<Book, Long> {
+
+    List<Book> findByAuthorContainingIgnoreCase(String author);
+
+    List<Book> findByTitleContainingIgnoreCase(String title);
+
+    List<Book>
+    findByCategoryContainingIgnoreCase(String category);
+
+    List<Book>
+    findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(
+            String title,
+            String author
+    );
 }

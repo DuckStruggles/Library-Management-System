@@ -1,41 +1,41 @@
-package com.srishti.libManagement.Model;
+package com.srishti.libManagement.DTO;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-public class Book {
+public class BookRequestDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @NotBlank(message = "Title cannot be empty")
     private String title;
 
+    @NotBlank(message = "Author cannot be empty")
     private String author;
 
+    @NotBlank(message = "ISBN cannot be empty")
     private String isbn;
 
+    @NotBlank(message = "Category cannot be empty")
     private String category;
 
+    @Min(value = 1, message = "Total copies must be at least 1")
     private int totalCopies;
 
+    @Min(value = 0, message = "Available copies cannot be negative")
     private int availableCopies;
 
     private int publishedYear;
 
-    public Book() {
+    public BookRequestDTO() {
     }
 
-    public Book(Long id,
-                String title,
-                String author,
-                String isbn,
-                String category,
-                int totalCopies,
-                int availableCopies,
-                int publishedYear) {
+    public BookRequestDTO(String title,
+                          String author,
+                          String isbn,
+                          String category,
+                          int totalCopies,
+                          int availableCopies,
+                          int publishedYear) {
 
-        this.id = id;
         this.title = title;
         this.author = author;
         this.isbn = isbn;
@@ -43,10 +43,6 @@ public class Book {
         this.totalCopies = totalCopies;
         this.availableCopies = availableCopies;
         this.publishedYear = publishedYear;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitle() {
@@ -75,10 +71,6 @@ public class Book {
 
     public int getPublishedYear() {
         return publishedYear;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setTitle(String title) {
