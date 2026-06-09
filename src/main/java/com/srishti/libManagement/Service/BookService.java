@@ -2,6 +2,7 @@ package com.srishti.libManagement.Service;
 
 import com.srishti.libManagement.DTO.BookRequestDTO;
 import com.srishti.libManagement.DTO.BookResponseDTO;
+import com.srishti.libManagement.DTO.BookSuggestionDTO;
 import com.srishti.libManagement.Model.Book;
 import com.srishti.libManagement.Repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,6 @@ public class BookService {
     }
 
     // GET all books
-
     public Page<BookResponseDTO>
     getAllBooks(Pageable pageable) {
 
@@ -41,18 +41,10 @@ public class BookService {
                 .map(this::mapToDTO);
     }
 
-    public List<BookResponseDTO> getAllBooks() {
-
-        return repository.findAll()
-                .stream()
-                .map(this::mapToDTO)
-                .toList();
-    }
-
     // GET by ID
     public BookResponseDTO getBookByID(int id) {
 
-        Book book = repository.findById(id)
+        Book book = repository.findById((long) id)
                 .orElseThrow(() ->
                         new IllegalArgumentException(
                                 "Book with ID: " + id + " does not exist"));
@@ -89,16 +81,34 @@ public class BookService {
                 .toList();
     }
 
-    public List<BookResponseDTO> searchBooks(String keyword) {
-        List<Book> books =
-                repository
-                        .findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(
-                                keyword,
-                                keyword
-                        );
+    public Page<BookResponseDTO>
+    searchBooks(String keyword,
+                Pageable pageable) {
 
-        return books.stream()
-                .map(this::mapToDTO)
+        return repository
+                .findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(
+                        keyword,
+                        keyword,
+                        pageable
+                )
+                .map(this::mapToDTO);
+    }
+
+    public List<BookSuggestionDTO>
+    getSuggestions(String keyword) {
+
+        return repository
+                .findTop5ByTitleContainingIgnoreCaseOrderByTitleAsc(
+                        keyword
+                )
+                .stream()
+                .map(book ->
+                        new BookSuggestionDTO(
+                                book.getId(),
+                                book.getTitle(),
+                                book.getAuthor()
+                        )
+                )
                 .toList();
     }
 
@@ -145,6 +155,6 @@ public class BookService {
     // DELETE book
     public void deleteBook(int id) {
 
-        repository.deleteById(id);
+        repository.deleteById((long) id);
     }
 }

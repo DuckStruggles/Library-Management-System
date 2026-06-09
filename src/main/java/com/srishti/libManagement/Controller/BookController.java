@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import com.srishti.libManagement.DTO.BookSuggestionDTO;
 
 @RestController
 @RequestMapping("/books")
@@ -57,10 +58,22 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<BookResponseDTO>>
-    searchBooks(@RequestParam String keyword) {
+    public ResponseEntity<Page<BookResponseDTO>>
+    searchBooks(
+            @RequestParam String keyword,
+            Pageable pageable
+    ) {
 
-        return ResponseEntity.ok(service.searchBooks(keyword));
+        return ResponseEntity.ok(service.searchBooks(keyword, pageable));
+    }
+
+    @GetMapping("/suggestions")
+    public ResponseEntity<List<BookSuggestionDTO>>
+    getSuggestions(@RequestParam String q) {
+
+        return ResponseEntity.ok(
+                service.getSuggestions(q)
+        );
     }
 
     // ADD new book
@@ -74,7 +87,7 @@ public class BookController {
     // UPDATE existing book
     @PutMapping("/{id}")
     public ResponseEntity<BookResponseDTO>
-    updateBook(@PathVariable int id,
+    updateBook(@PathVariable long id,
                @Valid @RequestBody BookRequestDTO dto) {
 
         return ResponseEntity.ok(service.updateBook(id, dto));
