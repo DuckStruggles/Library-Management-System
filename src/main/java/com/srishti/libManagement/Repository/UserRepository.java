@@ -1,4 +1,7 @@
 package com.srishti.libManagement.Repository;
 
-public class UserRepository {
+import com.srishti.libManagement.Model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
 }

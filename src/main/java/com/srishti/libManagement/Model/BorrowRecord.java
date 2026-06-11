@@ -20,6 +20,14 @@ public class BorrowRecord {
 
     private String status;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
     public BorrowRecord() {
     }
 
@@ -61,5 +69,21 @@ public class BorrowRecord {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 }
