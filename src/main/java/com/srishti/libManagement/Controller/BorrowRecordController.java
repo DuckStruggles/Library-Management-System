@@ -1,5 +1,6 @@
 package com.srishti.libManagement.Controller;
 
+import com.srishti.libManagement.DTO.BorrowRequestDTO;
 import com.srishti.libManagement.Model.BorrowRecord;
 import com.srishti.libManagement.Service.BorrowRecordService;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,18 @@ public class BorrowRecordController {
     public BorrowRecordController(BorrowRecordService borrowRecordService) {
         this.borrowRecordService = borrowRecordService;
     }
+    @PostMapping("/borrow")
+    public BorrowRecord borrowBook(@RequestBody BorrowRequestDTO request) {
+        return borrowRecordService.borrowBook(
+                request.getUserId(),
+                request.getBookId()
+        );
+    }
 
-    @PostMapping
-    public BorrowRecord createRecord(
-            @RequestBody BorrowRecord borrowRecord) {
+    @PutMapping("/return/{recordId}")
+    public BorrowRecord returnBook(@PathVariable Long recordId) {
 
-        return borrowRecordService.saveRecord(borrowRecord);
+        return borrowRecordService.returnBook(recordId);
     }
 
     @GetMapping
